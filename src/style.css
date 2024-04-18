@@ -45,7 +45,8 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.left {
+.left,
+.center {
   display: grid;
   gap: 10px;
   grid-auto-rows: 25%;
@@ -55,6 +56,80 @@ body {
 
 .project {
   border: 1px solid blue;
-  max-height: 60vh;
-  min-height: 0;
+  /* max-height: 60vh; */
+  /* min-height: 0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
+.todo {
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+}
+
+.right {
+  overflow: scroll;
+  padding: 10px;
+}
+
+.selected-todo {
+  border: solid rgb(64, 198, 64) 1px;
+  height: 100%;
+}
+
+.centered-todo-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  padding: 5px;
+}
+
+.todo-btns {
+  display: flex;
+  align-items: center;
+
+  /* border: 1px green solid; */
+}
+
+h5 + p {
+  font-size: 0.7rem;
+}
+
+.bin {
+  padding-left: 15px;
+}
+
+.todo-details {
+  padding: 15px;
+  list-style: none;
+}
+
+.selected-todo > h3 {
+  padding: 15px 0 0 15px;
+}
+
+label,
+.centered-todo-btns > h5 {
+  padding-bottom: 4px;
+}
+
+.todo-detail {
+  padding-bottom: 15px;
+}
+
+.todo-notes > p {
+  color: blue;
+  max-height: 100px;
+  overflow: auto;
+}
+
+/* .todo-notes {
+  overflow: scroll;
+} */
