@@ -22,16 +22,39 @@ body {
 }
 
 .left,
-.center.,
+.center,
 .right {
+  border: 1px black solid;
 }
 
 .top {
   border: 3px rgb(60, 59, 59) solid;
   grid-row: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-task {
 }
 
 .bottom {
-  border: 3px blue solid;
+  border: 3px rgb(2, 2, 2) solid;
   grid-row: 2/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.left {
+  display: grid;
+  gap: 10px;
+  grid-auto-rows: 25%;
+  padding: 10px;
+  overflow: scroll;
+}
+
+.project {
+  border: 1px solid blue;
+  max-height: 60vh;
+  min-height: 0;
 }
