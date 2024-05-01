@@ -8,97 +8,139 @@
   <body>
     <div class="main-body">
       <div class="top">
-        <button class="add-task">Add Todo</button>
+        <img class="logo" src="./img/logo.png" alt="logo" />
       </div>
       <div class="bottom">
         <div class="left">
-          <div class="project">
-            <h2>Default Project</h2>
-            <p>Location for lonely Todos</p>
-          </div>
-          <div class="project">
-            <h2>Project One</h2>
-            <p>Discription</p>
-          </div>
-          <div class="project">
-            <h2>Project Two</h2>
-            <p>Discription</p>
-          </div>
-          <div class="project">
-            <h2>Project Three</h2>
-            <p>Discription</p>
-          </div>
-
-          <div class="project">
-            <h2>Project Four</h2>
-            <p>Discription</p>
-          </div>
-        </div>
-        <div class="center">
-          <div class="todo">
-            <h3>Todo One</h3>
-            <span class="todo-btns">
-              <span class="centered-todo-btns"
-                ><label for="checkbox0"><h5>Completed</h5></label
-                ><input id="checkbox0" type="checkbox" />
-              </span>
-              <span class="centered-todo-btns"
-                ><h5>Due Date</h5>
-                <p>15FEB25</p></span
-              >
-              <span class="centered-todo-btns bin"
-              >🗑
-            </span>
-          </div>
-          <div class="todo"><h3>Todo Two</h3><span class="todo-btns">
-              <span class="centered-todo-btns"
-                ><label for="checkbox1"><h5>Completed</h5></label
-                ><input id="checkbox1" type="checkbox" />
-              </span>
-              <span class="centered-todo-btns"
-                ><h5>Due Date</h5>
-                <p>15FEB25</p></span
-              >
-              <span class="centered-todo-btns bin"
-              >🗑
-            </span></div>
-          <div class="todo"><h3>Todo Three</h3><span class="todo-btns">
-              <span class="centered-todo-btns"
-                ><label for="checkbox2"><h5>Completed</h5></label
-                ><input id="checkbox2" type="checkbox" />
-              </span>
-              <span class="centered-todo-btns"
-                ><h5>Due Date</h5>
-                <p>25FEB25</p></span
-              >
-              <span class="centered-todo-btns bin"
-              >🗑
-            </span></div>
-          <div class="todo"><h3>Todo Four</h3><span class="todo-btns">
-              <span class="centered-todo-btns"
-                ><label for="checkbox3"><h5>Completed</h5></label
-                ><input id="checkbox3" type="checkbox" />
-              </span>
-              <span class="centered-todo-btns"
-                ><h5>Due Date</h5>
-                <p>15MARCH25</p></span
-              >
-              <span class="centered-todo-btns bin"
-              >🗑
-            </span></div>
-        </div>
-        <div class="right">
-          <div class="selected-todo"><h3>Todo One</h3>
-            <ul class="todo-details">
-                <li class="todo-description todo-detail">
-                    <h4>Description:</h4><p>Must finish Todo App</p>
+          <div class="project new-project-div">
+            <form class="add-project-form">
+              <ul>
+                <li>
+                  <h4>New Project Name:</h4>
+                  <input class="project-name-form" type="text" />
                 </li>
-                <li class="todo-due-date todo-detail"><h4>Due Date:</h4><p>15FEB25</p></li>
-                <li class="todo-priority todo-detail"><h4>Priority:</h4><p>High</p></li>
-                <li class="todo-completed todo-detail"><h4>Completed:</h4><p>No</p></li>
-                <li class="todo-notes todo-detail"><h4>Notes:</h4><p  contenteditable="true">The best way to compete this is by getting my head down and really focussing. Take breaks and spread love</p></li>
-            </ul>
+                <li>
+                  <h4>Discription:</h4>
+                  <input class="project-discription-form" type="text" />
+                </li>
+                <li class="project-buttons-form">
+                  <input
+                    class="submit-project-button-form"
+                    type="submit"
+                    value="create"
+                  /><input
+                    class="close-project-button-form"
+                    type="submit"
+                    value="close"
+                  />
+                </li>
+              </ul>
+            </form>
+          </div>
+          <div class="project new-project-tab">
+            <h2>Add New Project</h2>
+            <img
+              class="add-note new-project-button-tab"
+              src="./img/addLibrary.png"
+              alt="add-note"
+              title="Click to add new note"
+            />
+          </div>
         </div>
+        <div class="center"></div>
+        <div class="right">
+          <div class="selected-todo">
+            <h3>Todo One</h3>
+            <ul class="todo-details-list">
+              <li class="todo-detail-list-item">
+                <h4>Description:</h4>
+                <p>Must finish Todo App</p>
+              </li>
+              <li class="todo-detail-list-item">
+                <h4>Due Date:</h4>
+                <p><input class="date-test" type="date" /></p>
+              </li>
+              <li class="todo-detail-list-item">
+                <h4>Priority:</h4>
+                <p>
+                  <select id="priority-select">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </p>
+              </li>
+              <li class="todo-detail-list-item">
+                <h4>Completed:</h4>
+                <p>
+                  <select id="yes-no-select">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </p>
+              </li>
+              <li class="todo-notes todo-detail-list-item">
+                <h4>Notes:</h4>
+                <p contenteditable="true">
+                  The best way to compete this is by getting my head down and
+                  really focusing. Take breaks and spread love. You will have to
+                  work hard but it will be worth it.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="new-todo-div">
+          <form class="add-todo-form" action="">
+            <ul class="add-todo-form-list">
+              <li>
+                <h4>Todo Name:</h4>
+                <p><input type="text" /></p>
+              </li>
+              <li>
+                <h4>Description:</h4>
+                <p><input type="text" /></p>
+              </li>
+              <li>
+                <h4>Due Date:</h4>
+                <p><input type="date" /></p>
+              </li>
+              <li>
+                <h4>Priority:</h4>
+                <p>
+                  <select id="priority-select">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </p>
+              </li>
+              <li class="add-todo-completed add-todo-detail">
+                <h4>Completed:</h4>
+                <p>
+                  <select id="yes-no-select">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </p>
+              </li>
+            </ul>
+            <ul class="add-todo-form-notes-list">
+              <li>
+                <h4>Notes:</h4>
+                <p>
+                  <textarea rows="10"></textarea>
+                </p>
+              </li>
+              <li class="add-todo-form-submit-button">
+                <input class="submit submit-todo" type="submit" /><input
+                  class="submit close-todo"
+                  type="submit"
+                  value="close"
+                />
+              </li>
+            </ul>
+          </form>
         </div>
       </div>
     </div>

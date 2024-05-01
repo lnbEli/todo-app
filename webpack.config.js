@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -33,6 +34,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Todo App",
       template: "./src/index.html",
+    }),
+
+    new CopyPlugin({
+      patterns: [{ from: "./src/img", to: "./img", force: true }],
     }),
   ],
   optimization: {

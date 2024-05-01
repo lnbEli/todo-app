@@ -4,7 +4,7 @@ import toCamelCase from "./toCamelCase.js";
 export default class App {
   constructor() {
     this.projects = {
-      default: new Project("default", "default todos location"),
+      default: new Project("Default Project", "Location for lonely Todos"),
     };
   }
 

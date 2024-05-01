@@ -14,54 +14,92 @@ body {
 
 .main-body {
   display: grid;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: minmax(50px, 1fr) 4fr;
   background-color: white;
   width: 98%;
   height: 95%;
   border-radius: 5px;
-}
-
-.left,
-.center,
-.right {
-  border: 1px black solid;
+  overflow: auto;
+  min-height: fit-content;
 }
 
 .top {
   border: 3px rgb(60, 59, 59) solid;
   grid-row: 1/2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgb(203, 246, 254);
 }
 
-.add-task {
+.logo {
+  height: 100%;
+  width: auto;
 }
 
 .bottom {
   border: 3px rgb(2, 2, 2) solid;
   grid-row: 2/3;
   display: grid;
+  /* Add with JS when using three columns */
   grid-template-columns: 1fr 1fr 1fr;
+  /* Add with JS when using two columns */
+  /* grid-template-columns: 1fr 1fr; */
 }
 
 .left,
 .center {
+  border: 1px black solid;
   display: grid;
   gap: 10px;
-  grid-auto-rows: 25%;
+  grid-auto-rows: 30%;
   padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: max-content;
+}
+
+.right {
+  border: 1px black solid;
   overflow: scroll;
+  padding: 10px;
+  min-width: min-content;
+}
+
+.new-todo-div {
+  min-width: fit-content;
+  border: red 1px solid;
+  display: none;
+  cursor: pointer;
 }
 
 .project {
   border: 1px solid blue;
-  /* max-height: 60vh; */
-  /* min-height: 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: max-content;
+}
+
+.new-project-div {
+  display: none;
+}
+
+.add-project-form ul {
+  list-style: none;
+}
+
+.add-project-form li {
+  padding-top: 5px;
+}
+
+.project-buttons-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-buttons-form input {
+  width: 50%;
+  cursor: pointer;
 }
 
 .todo {
@@ -72,9 +110,26 @@ body {
   justify-content: space-between;
 }
 
-.right {
-  overflow: scroll;
-  padding: 10px;
+.todo-btns {
+  display: flex;
+  align-items: center;
+}
+
+.todo-btns > span,
+.completed-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+}
+
+h5 {
+  padding-bottom: 4px;
+}
+
+.bin {
+  margin-left: 10px;
 }
 
 .selected-todo {
@@ -82,31 +137,11 @@ body {
   height: 100%;
 }
 
-.centered-todo-btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  /* border: 1px solid red; */
-  padding: 5px;
-}
-
-.todo-btns {
-  display: flex;
-  align-items: center;
-
-  /* border: 1px green solid; */
-}
-
 h5 + p {
   font-size: 0.7rem;
 }
 
-.bin {
-  padding-left: 15px;
-}
-
-.todo-details {
+.todo-details-list {
   padding: 15px;
   list-style: none;
 }
@@ -115,12 +150,7 @@ h5 + p {
   padding: 15px 0 0 15px;
 }
 
-label,
-.centered-todo-btns > h5 {
-  padding-bottom: 4px;
-}
-
-.todo-detail {
+.todo-detail-list-item {
   padding-bottom: 15px;
 }
 
@@ -130,6 +160,56 @@ label,
   overflow: auto;
 }
 
-/* .todo-notes {
-  overflow: scroll;
-} */
+img {
+  width: 30px;
+}
+
+.add-todo-form-list {
+  list-style: none;
+  border: black 1px solid;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px; */
+}
+
+.add-todo-form-list > * {
+  width: 200px;
+}
+
+.add-note {
+  cursor: pointer;
+}
+
+textarea {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.add-todo-form-notes-list {
+  padding: 15px;
+  list-style: none;
+}
+
+.add-todo-form-notes-list > li {
+  padding-top: 20px;
+}
+
+.add-todo-form-submit-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submit {
+  width: 15%;
+  min-width: 50px;
+}
+
+.add-task {
+  cursor: pointer;
+}
