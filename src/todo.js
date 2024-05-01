@@ -12,7 +12,7 @@ export default class Todo {
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
-    this.completed = false;
+    this.completed = completed;
   }
 
   changePriority(level) {

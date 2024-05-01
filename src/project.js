@@ -8,8 +8,15 @@ export default class Project {
     this.completedPercentage = 0;
   }
 
-  addTodo(name, discription, dueDate, priority) {
-    const todo = new Todo(name, discription, dueDate, priority);
+  addTodo(name, discription, dueDate, priority, notes, completed) {
+    const todo = new Todo(
+      name,
+      discription,
+      dueDate,
+      priority,
+      notes,
+      completed
+    );
     this.todos.push(todo);
   }
 

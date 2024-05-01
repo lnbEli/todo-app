@@ -17,7 +17,7 @@ export default function createTodoHtmlElement(name, completed, due) {
   h5Completed.textContent = "Completed";
   input.setAttribute("id", "checkboxTest1");
   input.setAttribute("type", "checkbox");
-  completed ? input.checked === true : (input.checked = false);
+  completed ? (input.checked = true) : (input.checked = false);
   h5Due.textContent = "Due Date";
   paragraph.textContent = due;
   spanInnerTwo.classList.add("bin");
