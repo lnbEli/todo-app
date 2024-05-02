@@ -2,10 +2,12 @@ import "./style.css";
 import App from "./application.js";
 import createTodoHtmlElement from "./createTodoHtmlElement.js";
 import createProjectHtmlElement from "./createProjectHtmlElement.js";
+import createTodoDetailedHtmlElement from "./createTodoDetailedHtmlElement.js";
+import createTodoFormHtmlElement from "./createTodoFormHtmlElement.js";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 
 const todoApp = new App();
-const addTodoDiv = document.querySelector(".new-todo-div");
+
 const centerColumn = document.querySelector(".center");
 const rightColumn = document.querySelector(".right");
 const bottom = document.querySelector(".bottom");
@@ -15,20 +17,16 @@ const createProjectButton = document.querySelector(
   ".submit-project-button-form"
 );
 const closeProjectButton = document.querySelector(".close-project-button-form");
-const addProjectDiscription = document.querySelector(
-  ".project-discription-form"
+const addProjectDescription = document.querySelector(
+  ".project-description-form"
 );
 const addProjectName = document.querySelector(".project-name-form");
 const addProjectButton = document.querySelector(".new-project-button-tab");
-const submitTodoButton = document.querySelector(".submit-todo");
-const closeTodoButton = document.querySelector(".close-todo");
 
 //Event listeners
 createProjectButton.addEventListener("click", createProject);
 closeProjectButton.addEventListener("click", closeProject);
 addProjectButton.addEventListener("click", addProject);
-closeTodoButton.addEventListener("click", closeTodo);
-submitTodoButton.addEventListener("click", submitTodo);
 
 todoApp.addProject("Project One", "My First Project");
 todoApp.projects.projectOne.addTodo(
@@ -58,11 +56,50 @@ todoApp.projects.projectOne.addTodo(
   true
 );
 
-function toggleAddProject() {
-  addTodoDiv.style.display = "block";
+rightColumn.appendChild(
+  createTodoDetailedHtmlElement(
+    "Todo One",
+    "Must Finish Todo App",
+    "2018-07-22",
+    "high",
+    `The best way to compete this is by getting my head down and
+      really focusing. Take breaks and spread love. You will have to
+      work hard but it will be worth it`,
+    false
+  )
+);
+
+function openAddTodoForm() {
+  bottom.appendChild(createTodoFormHtmlElement());
+  addEventListenerToTodoFormButtons();
   bottom.style.gridTemplateColumns = "1fr 1fr";
   centerColumn.style.display = "none";
   rightColumn.style.display = "none";
+}
+
+function addEventListenerToTodoFormButtons() {
+  const submitTodoButton = document.querySelector(".submit-todo");
+  const closeTodoButton = document.querySelector(".close-todo");
+  closeTodoButton.addEventListener("click", closeTodo);
+  submitTodoButton.addEventListener("click", submitTodo);
+}
+
+function submitTodo(e) {
+  e.preventDefault();
+  const todoFormElement = document.querySelector(".new-todo-div");
+  todoFormElement.remove();
+  centerColumn.style.display = "grid";
+  rightColumn.style.display = "block";
+  bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
+}
+
+function closeTodo(e) {
+  e.preventDefault();
+  const todoFormElement = document.querySelector(".new-todo-div");
+  todoFormElement.remove();
+  centerColumn.style.display = "grid";
+  rightColumn.style.display = "block";
+  bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
 }
 
 function addProject() {
@@ -72,7 +109,7 @@ function addProject() {
 
 function createProject(e) {
   e.preventDefault();
-  todoApp.addProject(addProjectName.value, addProjectDiscription.value);
+  todoApp.addProject(addProjectName.value, addProjectDescription.value);
   populateProjectsDom();
   addProjectTab.style.display = "flex";
   addProjectForm.style.display = "none";
@@ -84,26 +121,10 @@ function closeProject(e) {
   addProjectForm.style.display = "none";
 }
 
-function submitTodo(e) {
-  e.preventDefault();
-  addTodoDiv.style.display = "none";
-  centerColumn.style.display = "grid";
-  rightColumn.style.display = "block";
-  bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
-}
-
-function closeTodo(e) {
-  e.preventDefault();
-  addTodoDiv.style.display = "none";
-  centerColumn.style.display = "grid";
-  rightColumn.style.display = "block";
-  bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
-}
-
-function addCreateNewTaskButton() {
-  const addTask = document.querySelectorAll(".add-task");
-  addTask.forEach((element) => {
-    element.addEventListener("click", toggleAddProject);
+function addEventListenerToAddTodoButtons() {
+  const addTodo = document.querySelectorAll(".add-todo");
+  addTodo.forEach((element) => {
+    element.addEventListener("click", openAddTodoForm);
   });
 }
 
@@ -128,10 +149,10 @@ function populateProjectsDom() {
   let projects = Object.values(todoApp.projects);
   projects.forEach((project) => {
     projectColumn.appendChild(
-      createProjectHtmlElement(project.name, project.discription)
+      createProjectHtmlElement(project.name, project.description)
     );
   });
-  addCreateNewTaskButton();
+  addEventListenerToAddTodoButtons();
 }
 
 centerColumn.appendChild(createTodoHtmlElement("Todo Test", true, "19APR25"));

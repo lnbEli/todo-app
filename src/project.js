@@ -1,17 +1,17 @@
 import Todo from "./todo";
 
 export default class Project {
-  constructor(name, discription) {
+  constructor(name, description) {
     this.name = name;
-    this.discription = discription;
+    this.description = description;
     this.todos = [];
     this.completedPercentage = 0;
   }
 
-  addTodo(name, discription, dueDate, priority, notes, completed) {
+  addTodo(name, description, dueDate, priority, notes, completed) {
     const todo = new Todo(
       name,
-      discription,
+      description,
       dueDate,
       priority,
       notes,

@@ -1,4 +1,4 @@
-export default function createProjectHtmlElement(name, discription) {
+export default function createProjectHtmlElement(name, description) {
   const div = document.createElement("div");
   const h2 = document.createElement("h2");
   const paragraph = document.createElement("p");
@@ -6,8 +6,8 @@ export default function createProjectHtmlElement(name, discription) {
   div.classList.add("project");
   div.classList.add("project-refresh");
   h2.textContent = name;
-  paragraph.textContent = discription;
-  image.classList.add("add-task");
+  paragraph.textContent = description;
+  image.classList.add("add-todo");
   image.src = "./img/addNote.png";
   image.alt = "add-note";
   image.title = "Click to add new note";

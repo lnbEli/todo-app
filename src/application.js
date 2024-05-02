@@ -8,14 +8,14 @@ export default class App {
     };
   }
 
-  addProject(name, discription) {
+  addProject(name, description) {
     const camelCaseName = toCamelCase(name);
     //check if project name already exists
     if (this.projects[camelCaseName]) {
       console.log("Error, Name Already Exists");
     } else {
       //add new project
-      const project = new Project(name, discription);
+      const project = new Project(name, description);
       this.projects[camelCaseName] = project;
     }
   }
