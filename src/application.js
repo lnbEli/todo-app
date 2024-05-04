@@ -4,8 +4,12 @@ import toCamelCase from "./toCamelCase.js";
 export default class App {
   constructor() {
     this.projects = {
-      default: new Project("Default Project", "Location for lonely Todos"),
+      defaultProject: new Project(
+        "Default Project",
+        "Location for lonely Todos"
+      ),
     };
+    this.numberOfProjects = 1;
   }
 
   addProject(name, description) {
@@ -16,6 +20,7 @@ export default class App {
     } else {
       //add new project
       const project = new Project(name, description);
+      this.numberOfProjects++;
       this.projects[camelCaseName] = project;
     }
   }

@@ -4,70 +4,37 @@ import createTodoHtmlElement from "./createTodoHtmlElement.js";
 import createProjectHtmlElement from "./createProjectHtmlElement.js";
 import createTodoDetailedHtmlElement from "./createTodoDetailedHtmlElement.js";
 import createTodoFormHtmlElement from "./createTodoFormHtmlElement.js";
+import createProjectFormHtmlElement from "./createProjectFormHtmlElement.js";
+import createProjectTabHtmlElement from "./createProjectTabHtmlElement.js";
+import sampleProjectsData from "./sampleProjectsData.js";
+import toCamelCase from "./toCamelCase.js";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 
 const todoApp = new App();
-
+const leftColumn = document.querySelector(".left");
 const centerColumn = document.querySelector(".center");
 const rightColumn = document.querySelector(".right");
 const bottom = document.querySelector(".bottom");
-const addProjectTab = document.querySelector(".new-project-tab");
-const addProjectForm = document.querySelector(".new-project-div");
-const createProjectButton = document.querySelector(
-  ".submit-project-button-form"
-);
-const closeProjectButton = document.querySelector(".close-project-button-form");
-const addProjectDescription = document.querySelector(
-  ".project-description-form"
-);
-const addProjectName = document.querySelector(".project-name-form");
-const addProjectButton = document.querySelector(".new-project-button-tab");
 
-//Event listeners
-createProjectButton.addEventListener("click", createProject);
-closeProjectButton.addEventListener("click", closeProject);
-addProjectButton.addEventListener("click", addProject);
-
-todoApp.addProject("Project One", "My First Project");
-todoApp.projects.projectOne.addTodo(
-  "goodbye",
-  "Terrible task",
-  "15June",
-  "Low",
-  "notes are boring",
-  false
-);
-
-todoApp.projects.projectOne.addTodo(
-  "bye",
-  "Amazing task",
-  "15June",
-  "Low",
-  "notes are boring",
-  false
-);
-
-todoApp.projects.projectOne.addTodo(
-  "good",
-  "task",
-  "15June",
-  "Low",
-  "notes are boring",
-  true
-);
-
-rightColumn.appendChild(
-  createTodoDetailedHtmlElement(
-    "Todo One",
-    "Must Finish Todo App",
-    "2018-07-22",
-    "high",
-    `The best way to compete this is by getting my head down and
-      really focusing. Take breaks and spread love. You will have to
-      work hard but it will be worth it`,
-    false
-  )
-);
+//start up
+function init() {
+  sampleProjectsData(todoApp);
+  leftColumn.appendChild(createProjectTabHtmlElement());
+  addEventListenerAddProjectButton();
+  populateProjectsDom();
+  populateTodosDom("defaultProject");
+  rightColumn.appendChild(
+    createTodoDetailedHtmlElement(
+      todoApp.projects.projectOne.todos[0].name,
+      todoApp.projects.projectOne.todos[0].description,
+      todoApp.projects.projectOne.todos[0].dueDate,
+      todoApp.projects.projectOne.todos[0].priority,
+      todoApp.projects.projectOne.todos[0].notes,
+      todoApp.projects.projectOne.todos[0].completed
+    )
+  );
+}
+init();
 
 function openAddTodoForm() {
   bottom.appendChild(createTodoFormHtmlElement());
@@ -75,13 +42,7 @@ function openAddTodoForm() {
   bottom.style.gridTemplateColumns = "1fr 1fr";
   centerColumn.style.display = "none";
   rightColumn.style.display = "none";
-}
-
-function addEventListenerToTodoFormButtons() {
-  const submitTodoButton = document.querySelector(".submit-todo");
-  const closeTodoButton = document.querySelector(".close-todo");
-  closeTodoButton.addEventListener("click", closeTodo);
-  submitTodoButton.addEventListener("click", submitTodo);
+  disableAddTodoButtons();
 }
 
 function submitTodo(e) {
@@ -91,6 +52,7 @@ function submitTodo(e) {
   centerColumn.style.display = "grid";
   rightColumn.style.display = "block";
   bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
+  enableAddTodoButtons();
 }
 
 function closeTodo(e) {
@@ -100,31 +62,73 @@ function closeTodo(e) {
   centerColumn.style.display = "grid";
   rightColumn.style.display = "block";
   bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
+  enableAddTodoButtons();
 }
 
 function addProject() {
-  addProjectTab.style.display = "none";
-  addProjectForm.style.display = "grid";
+  const addProjectTab = document.querySelector(".new-project-tab");
+  addProjectTab.remove();
+  leftColumn.prepend(createProjectFormHtmlElement());
+  addEventListenerNewProjectButtons();
 }
 
 function createProject(e) {
   e.preventDefault();
+  const addProjectName = document.querySelector(".project-name-form");
+  const addProjectDescription = document.querySelector(
+    ".project-description-form"
+  );
   todoApp.addProject(addProjectName.value, addProjectDescription.value);
+  addProjectName.value = "";
+  addProjectDescription.value = "";
   populateProjectsDom();
-  addProjectTab.style.display = "flex";
-  addProjectForm.style.display = "none";
+  closeProject();
 }
 
-function closeProject(e) {
-  e.preventDefault();
-  addProjectTab.style.display = "flex";
-  addProjectForm.style.display = "none";
+function closeProject() {
+  const addProjectForm = document.querySelector(".new-project-div");
+  addProjectForm.remove();
+  leftColumn.prepend(createProjectTabHtmlElement());
+  addEventListenerAddProjectButton();
+}
+
+//Add EventListeners to buttons functions
+function addEventListenerToTodoFormButtons() {
+  const submitTodoButton = document.querySelector(".submit-todo");
+  const closeTodoButton = document.querySelector(".close-todo");
+  closeTodoButton.addEventListener("click", closeTodo);
+  submitTodoButton.addEventListener("click", submitTodo);
 }
 
 function addEventListenerToAddTodoButtons() {
-  const addTodo = document.querySelectorAll(".add-todo");
-  addTodo.forEach((element) => {
+  const addTodoButton = document.querySelectorAll(".add-pointer");
+  addTodoButton.forEach((element) => {
     element.addEventListener("click", openAddTodoForm);
+  });
+}
+
+function addEventListenerNewProjectButtons() {
+  const createProjectButton = document.querySelector(
+    ".submit-project-button-form"
+  );
+  const closeProjectButton = document.querySelector(
+    ".close-project-button-form"
+  );
+  createProjectButton.addEventListener("click", createProject);
+  closeProjectButton.addEventListener("click", closeProject);
+}
+
+function addEventListenerAddProjectButton() {
+  const addProjectButton = document.querySelector(".new-project-button-tab");
+  addProjectButton.addEventListener("click", addProject);
+}
+
+function addEventListenerPopulateProjectTodos() {
+  const projectsDom = document.querySelectorAll(".project-refresh");
+  projectsDom.forEach((project) => {
+    project.addEventListener("click", () => {
+      populateTodosDom(toCamelCase(project.firstElementChild.textContent));
+    });
   });
 }
 
@@ -144,25 +148,23 @@ function removeAllTodosDom() {
 
 //function to create project in DOM
 function populateProjectsDom() {
-  const projectColumn = document.querySelector(".left");
   removeAllProjectsDom();
-  let projects = Object.values(todoApp.projects);
+  const projects = Object.values(todoApp.projects);
+  let dataSetIndex = 0;
   projects.forEach((project) => {
-    projectColumn.appendChild(
-      createProjectHtmlElement(project.name, project.description)
+    leftColumn.appendChild(
+      createProjectHtmlElement(project.name, project.description, dataSetIndex)
     );
+    dataSetIndex++;
   });
   addEventListenerToAddTodoButtons();
+  addEventListenerPopulateProjectTodos();
 }
-
-centerColumn.appendChild(createTodoHtmlElement("Todo Test", true, "19APR25"));
-
-populateProjectsDom();
 
 function populateTodosDom(project) {
   const todoColumn = document.querySelector(".center");
   removeAllTodosDom();
-  let todosArray = todoApp.projects[project].todos;
+  const todosArray = todoApp.projects[project].todos;
   todosArray.forEach((todo) => {
     todoColumn.appendChild(
       createTodoHtmlElement(todo.name, todo.completed, todo.dueDate)
@@ -170,6 +172,16 @@ function populateTodosDom(project) {
   });
 }
 
-//projectOne
+function disableAddTodoButtons() {
+  const addTodoButton = document.querySelectorAll(".add-pointer");
+  addTodoButton.forEach((button) => {
+    button.style.pointerEvents = "none";
+  });
+}
 
-populateTodosDom("projectOne");
+function enableAddTodoButtons() {
+  const addTodoButton = document.querySelectorAll(".add-pointer");
+  addTodoButton.forEach((button) => {
+    button.style.pointerEvents = "auto";
+  });
+}

@@ -80,9 +80,9 @@ body {
   min-width: max-content;
 }
 
-.new-project-div {
+/* .new-project-div {
   display: none;
-}
+} */
 
 .add-project-form ul {
   list-style: none;
@@ -180,7 +180,7 @@ img {
   width: 200px;
 }
 
-.add-note {
+.add-pointer {
   cursor: pointer;
 }
 
@@ -211,6 +211,8 @@ textarea {
   min-width: 50px;
 }
 
-.add-todo {
+.add-todo,
+.add-project,
+.project-refresh {
   cursor: pointer;
 }
