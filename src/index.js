@@ -10,6 +10,8 @@ import sampleProjectsData from "./sampleProjectsData.js";
 import toCamelCase from "./toCamelCase.js";
 import createCenterColumnAddTodoHtmlButtonElement from "./createCenterColumnAddTodoHtmlButtonElement";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import Project from "./project.js";
+import storageAvailable from "./storageAvailable.js";
 
 const todoApp = new App();
 const leftColumn = document.querySelector(".left");
@@ -17,9 +19,12 @@ const centerColumn = document.querySelector(".center");
 const rightColumn = document.querySelector(".right");
 const bottom = document.querySelector(".bottom");
 
+console.log(todoApp);
+console.log(todoApp.projects);
 //start up
 function init() {
-  sampleProjectsData(todoApp);
+  //   sampleProjectsData(todoApp);
+  getAnyAvailableLocalStorage();
   leftColumn.appendChild(createProjectTabHtmlElement());
   addEventListenerAddProjectButton();
   populateProjectsDom();
@@ -71,6 +76,7 @@ function createProject(e) {
   todoApp.addProject(projectName, addProjectDescription.value);
   addProjectName.value = "";
   addProjectDescription.value = "";
+  setToLocalStorage();
   populateProjectsDom();
   closeProject();
   addCenterColumnAddTodoButton(projectName);
@@ -275,13 +281,12 @@ function submitTodoValues() {
     notes.value,
     completed.value
   );
+
+  setToLocalStorage();
 }
 
 function populateTodoDetailsDom(project, todoIndex) {
-  //   console.log(todoIndex);
-  //   console.log(project);
   const selectedTodo = todoApp.projects[project].todos[todoIndex];
-  //   console.log(selectedTodo);
   removeTodoDetailsDom();
   if (selectedTodo) {
     rightColumn.appendChild(
@@ -295,8 +300,7 @@ function populateTodoDetailsDom(project, todoIndex) {
       )
     );
   } else {
-    // console.log(todoIndex);
-    // console.log("doesnt exist");
+    console.log("error function populateTodoDetails");
   }
 }
 
@@ -312,8 +316,6 @@ function setTwoColumnLayout() {
   rightColumn.style.display = "none";
 }
 
-console.log(todoApp);
-
 function addCenterColumnAddTodoButton(project) {
   centerColumn.style.gridAutoRows = "100%";
   centerColumn.appendChild(createCenterColumnAddTodoHtmlButtonElement(project));
@@ -324,4 +326,29 @@ function removeCenterColumnAddTodoButton() {
   centerColumn.style.gridAutoRows = "35%";
   const centerAddTodoButton = document.querySelector(".center-add-todo-div");
   centerAddTodoButton.remove();
+}
+
+function setToLocalStorage() {
+  const currentProjectsJSON = JSON.stringify(todoApp.projects);
+  localStorage.setItem("projects", currentProjectsJSON);
+}
+
+function getLocalStorage() {
+  const localStorageProjectsJSON = localStorage.getItem("projects");
+  const projects = JSON.parse(localStorageProjectsJSON);
+  for (let project in projects) {
+    Object.setPrototypeOf(projects[project], Project.prototype);
+  }
+  return projects;
+}
+
+// localStorage.removeItem("name");
+// localStorage.removeItem("projects");
+
+function getAnyAvailableLocalStorage() {
+  if (storageAvailable("localStorage")) {
+    todoApp.projects = getLocalStorage();
+  } else {
+    console.log("not available");
+  }
 }

@@ -14,11 +14,11 @@ export default class Todo {
     this.notes = notes;
     this.completed = completed;
   }
-
+  //not used
   changePriority(level) {
     this.priority = level;
   }
-
+  //not used
   completed() {
     this.completed = true;
   }
