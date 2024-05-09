@@ -20,6 +20,7 @@ export default class Project {
     this.todos.push(todo);
   }
 
+  //not used
   removeTodo(name) {
     const selectedTodoIndex = this.todos.findIndex((i) => i.name === name);
     this.todos.splice(selectedTodoIndex, 1);

@@ -13,7 +13,7 @@ export default function sampleProjectsData(todoApp) {
   todoApp.projects.projectOne.addTodo(
     "bye",
     "Amazing task",
-    "15June",
+    "2012-07-02",
     "low",
     "notes are boring",
     false
@@ -22,7 +22,7 @@ export default function sampleProjectsData(todoApp) {
   todoApp.projects.projectOne.addTodo(
     "good",
     "task",
-    "15June",
+    "2015-05-02",
     "low",
     "notes are boring",
     true

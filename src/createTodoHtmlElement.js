@@ -1,4 +1,10 @@
-export default function createTodoHtmlElement(name, completed, due) {
+export default function createTodoHtmlElement(
+  name,
+  completed,
+  due,
+  dataSetIndex,
+  dataSetProject
+) {
   const div = document.createElement("div");
   const h3 = document.createElement("h3");
   const h5Completed = document.createElement("h5");
@@ -11,12 +17,15 @@ export default function createTodoHtmlElement(name, completed, due) {
   const input = document.createElement("input");
 
   div.classList.add("todo");
+  div.setAttribute("data-index", dataSetIndex);
+  div.setAttribute("data-project", dataSetProject);
   h3.textContent = name;
   spanOuter.classList.add("todo-btns");
   label.classList.add("completed-label");
   h5Completed.textContent = "Completed";
-  input.setAttribute("id", "checkboxTest1");
+  input.setAttribute("id", `checkbox-${dataSetIndex}`);
   input.setAttribute("type", "checkbox");
+  input.classList.add("checkbox");
   completed ? (input.checked = true) : (input.checked = false);
   h5Due.textContent = "Due Date";
   paragraph.textContent = due;

@@ -1,4 +1,4 @@
-export default function createTodoFormHtmlElement() {
+export default function createTodoFormHtmlElement(project) {
   const div = document.createElement("div");
 
   const form = document.createElement("form");
@@ -21,6 +21,13 @@ export default function createTodoFormHtmlElement() {
   const h4Priority = document.createElement("h4");
   const h4Completed = document.createElement("h4");
   const h4Notes = document.createElement("h4");
+
+  const labelName = document.createElement("label");
+  const labelDescription = document.createElement("label");
+  const labelDueDate = document.createElement("label");
+  const labelPriority = document.createElement("label");
+  const labelCompleted = document.createElement("label");
+  const labelNotes = document.createElement("label");
 
   const paragraphName = document.createElement("p");
   const paragraphDescription = document.createElement("p");
@@ -48,20 +55,33 @@ export default function createTodoFormHtmlElement() {
 
   //Set attributes and classes of Elements
   div.classList.add("new-todo-div");
+  div.dataset.project = project;
   form.classList.add("add-todo-form");
   ul.classList.add("add-todo-form-list");
 
   h4Name.textContent = "Todo Name:";
+  labelName.htmlFor = "todo-name-form-id";
   inputName.setAttribute("type", "text");
+  inputName.classList.add("todo-name-form");
+  inputName.id = "todo-name-form-id";
 
   h4Description.textContent = "Description:";
+  labelDescription.htmlFor = "todo-description-form-id";
   inputDescription.setAttribute("type", "text");
+  inputDescription.classList.add("todo-description-form");
+  inputDescription.id = "todo-description-form-id";
 
   h4DueDate.textContent = "Due Date:";
+  labelDueDate.htmlFor = "todo-date-form-id";
   inputDueDate.setAttribute("type", "date");
+  inputDueDate.classList.add("todo-date-form");
+  inputDueDate.id = "todo-date-form-id";
 
   h4Priority.textContent = "Priority:";
+  labelPriority.htmlFor = "todo-priority-form-id";
   selectPriority.setAttribute("id", "priority-select");
+  selectPriority.classList.add("todo-priority-form");
+  selectPriority.id = "todo-priority-form-id";
 
   optionLow.textContent = "Low";
   optionLow.setAttribute("value", "low");
@@ -72,7 +92,10 @@ export default function createTodoFormHtmlElement() {
   optionHigh.setAttribute("value", "high");
 
   h4Completed.textContent = "Completed:";
+  labelCompleted.htmlFor = "todo-completed-form-id";
   selectCompleted.setAttribute("id", "yes-no-select");
+  selectCompleted.classList.add("todo-completed-form");
+  selectCompleted.id = "todo-completed-form-id";
 
   optionYes.textContent = "Yes";
   optionYes.setAttribute("value", "yes");
@@ -82,7 +105,10 @@ export default function createTodoFormHtmlElement() {
 
   ulNotes.classList.add("add-todo-form-notes-list");
   h4Notes.textContent = "Notes:";
+  labelNotes.htmlFor = "todo-notes-form-id";
   textArea.setAttribute("rows", "10");
+  textArea.classList.add("todo-notes-form");
+  textArea.id = "todo-notes-form-id";
 
   liButtons.classList.add("add-todo-form-submit-button");
   inputButtonSubmit.classList.add("submit-todo");
@@ -99,22 +125,26 @@ export default function createTodoFormHtmlElement() {
   form.appendChild(ulNotes);
 
   ul.appendChild(liName);
-  liName.appendChild(h4Name);
+  liName.appendChild(labelName);
+  labelName.appendChild(h4Name);
   liName.appendChild(paragraphName);
   paragraphName.appendChild(inputName);
 
   ul.appendChild(liDescription);
-  liDescription.appendChild(h4Description);
+  liDescription.appendChild(labelDescription);
+  labelDescription.appendChild(h4Description);
   liDescription.appendChild(paragraphDescription);
   paragraphDescription.appendChild(inputDescription);
 
   ul.appendChild(liDueDate);
-  liDueDate.appendChild(h4DueDate);
+  liDueDate.appendChild(labelDueDate);
+  labelDueDate.appendChild(h4DueDate);
   liDueDate.appendChild(paragraphDueDate);
   paragraphDueDate.appendChild(inputDueDate);
 
   ul.appendChild(liPriority);
-  liPriority.appendChild(h4Priority);
+  liPriority.appendChild(labelPriority);
+  labelPriority.appendChild(h4Priority);
   liPriority.appendChild(paragraphPriority);
   paragraphPriority.appendChild(selectPriority);
   selectPriority.appendChild(optionLow);
@@ -122,14 +152,16 @@ export default function createTodoFormHtmlElement() {
   selectPriority.appendChild(optionHigh);
 
   ul.appendChild(liCompleted);
-  liCompleted.appendChild(h4Completed);
+  liCompleted.appendChild(labelCompleted);
+  labelCompleted.appendChild(h4Completed);
   liCompleted.appendChild(paragraphCompleted);
   paragraphCompleted.appendChild(selectCompleted);
   selectCompleted.appendChild(optionYes);
   selectCompleted.appendChild(optionNo);
 
   ulNotes.appendChild(liNotes);
-  liNotes.appendChild(h4Notes);
+  liNotes.appendChild(labelNotes);
+  labelNotes.appendChild(h4Notes);
   liNotes.appendChild(paragraphNotes);
   paragraphNotes.appendChild(textArea);
 

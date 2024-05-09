@@ -5,6 +5,8 @@ export default function createProjectFormHtmlElement() {
   const liName = document.createElement("li");
   const liDescription = document.createElement("li");
   const liButtons = document.createElement("li");
+  const labelName = document.createElement("label");
+  const labelDescription = document.createElement("label");
   const h4Name = document.createElement("h4");
   const h4Description = document.createElement("h4");
   const inputName = document.createElement("input");
@@ -17,9 +19,14 @@ export default function createProjectFormHtmlElement() {
   div.classList.add("new-project-div");
   form.classList.add("add-project-form");
   h4Name.textContent = "New Project Name:";
+  h4Description.textContent = "Description:";
+  labelName.htmlFor = "project-name-form-id";
+  labelDescription.htmlFor = "project-description-form-id";
   inputName.classList.add("project-name-form");
+  inputName.id = "project-name-form-id";
   inputName.setAttribute("type", "text");
   inputDescription.classList.add("project-description-form");
+  inputDescription.id = "project-description-form-id";
   inputDescription.setAttribute("type", "text");
   liButtons.classList.add("project-buttons-form");
   inputButtonSubmit.classList.add("submit-project-button-form");
@@ -35,11 +42,13 @@ export default function createProjectFormHtmlElement() {
   form.appendChild(ul);
 
   ul.appendChild(liName);
-  liName.appendChild(h4Name);
+  liName.appendChild(labelName);
+  labelName.appendChild(h4Name);
   liName.appendChild(inputName);
 
   ul.appendChild(liDescription);
-  liDescription.appendChild(h4Description);
+  liDescription.appendChild(labelDescription);
+  labelDescription.appendChild(h4Description);
   liDescription.appendChild(inputDescription);
 
   ul.appendChild(liButtons);
