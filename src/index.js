@@ -102,7 +102,7 @@ function addEventListenerToAddTodoButtons() {
   addTodoButton.forEach((element) => {
     element.addEventListener("click", () => {
       const project = toCamelCase(
-        element.parentElement.firstElementChild.textContent
+        element.parentElement.children[1].textContent
       );
       openAddTodoForm(project);
     });
@@ -129,9 +129,7 @@ function addEventListenerPopulateProjectTodos() {
   const projectsDom = document.querySelectorAll(".project-refresh");
   projectsDom.forEach((project) => {
     project.addEventListener("click", () => {
-      const selectedProject = toCamelCase(
-        project.firstElementChild.textContent
-      );
+      const selectedProject = toCamelCase(project.children[1].textContent);
       populateTodosDom(selectedProject);
       populateTodoDetailsDom(selectedProject, 0);
     });
@@ -161,6 +159,25 @@ function addEventListenerToDeleteTodoButtons() {
       setToLocalStorage();
       populateTodosDom(currentProject);
       populateTodoDetailsDom(currentProject, Math.max(0, todoIndex - 1));
+    });
+  });
+}
+
+function addEventListenerToDeleteProjectButtons() {
+  const deleteButtons = document.querySelectorAll(".project-delete");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      //stops event bubbling
+      e.stopPropagation();
+      const currentProject = toCamelCase(
+        button.parentElement.querySelector("h2").textContent
+      );
+      delete todoApp.projects[currentProject];
+      setToLocalStorage();
+      populateProjectsDom();
+      const approxFirstProjectInProjects = Object.keys(todoApp.projects)[0];
+      populateTodosDom(approxFirstProjectInProjects);
+      populateTodoDetailsDom(approxFirstProjectInProjects, 0);
     });
   });
 }
@@ -257,15 +274,15 @@ function removeTodoDetailsDom() {
 function populateProjectsDom() {
   removeAllProjectsDom();
   const projects = Object.values(todoApp.projects);
-  let dataSetIndex = 0;
+
   projects.forEach((project) => {
     leftColumn.appendChild(
-      createProjectHtmlElement(project.name, project.description, dataSetIndex)
+      createProjectHtmlElement(project.name, project.description)
     );
-    dataSetIndex++;
   });
   addEventListenerToAddTodoButtons();
   addEventListenerPopulateProjectTodos();
+  addEventListenerToDeleteProjectButtons();
   removeTodoDetailsDom();
   removeAllTodosDom();
 }

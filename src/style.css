@@ -87,10 +87,6 @@ body {
   min-width: max-content;
 }
 
-/* .new-project-div {
-  display: none;
-} */
-
 .add-project-form ul {
   list-style: none;
 }
@@ -239,4 +235,13 @@ label {
 .center-add-todo-button {
   padding: 10px;
   cursor: pointer;
+}
+
+.project-delete {
+  align-self: flex-end;
+  padding-right: 5px;
+}
+
+.hide-project-delete {
+  visibility: hidden;
 }

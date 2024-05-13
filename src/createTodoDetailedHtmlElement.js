@@ -42,7 +42,7 @@ export default function createTodoDetailedHtmlElement(
   h3.textContent = name;
   ul.classList.add("todo-details-list");
   liDescription.classList.add("todo-detail-list-item");
-  h4Description.textContent = "Description";
+  h4Description.textContent = "Description:";
   paragraphDescription.textContent = description;
   liDueDate.classList.add("todo-detail-list-item");
   h4DueDate.textContent = "Due Date:";
