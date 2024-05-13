@@ -227,7 +227,7 @@ label {
 }
 .center-add-todo-div {
   justify-self: center;
-  align-self: center;
+  align-self: flex-start;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -240,8 +240,4 @@ label {
 .project-delete {
   align-self: flex-end;
   padding-right: 5px;
-}
-
-.hide-project-delete {
-  visibility: hidden;
 }

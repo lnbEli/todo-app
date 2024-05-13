@@ -15,7 +15,7 @@ export default function createProjectHtmlElement(name, description) {
   span.textContent = "✖";
   span.classList.add("project-delete");
   if (name === "Default Project") {
-    span.classList.add("hide-project-delete");
+    span.style.visibility = "hidden";
   }
   div.appendChild(span);
   div.appendChild(h2);

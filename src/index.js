@@ -32,6 +32,7 @@ init();
 
 function openAddTodoForm(project) {
   bottom.appendChild(createTodoFormHtmlElement(project));
+  removeCenterColumnAddTodoButton();
   addEventListenerToTodoFormButtons();
   setTwoColumnLayout();
   disableAddTodoButtons();
@@ -59,7 +60,6 @@ function closeTodo(e) {
 }
 
 function addProject() {
-  console.log(todoApp);
   const addProjectTab = document.querySelector(".new-project-tab");
   addProjectTab.remove();
   leftColumn.prepend(createProjectFormHtmlElement());
@@ -72,14 +72,14 @@ function createProject(e) {
   const addProjectDescription = document.querySelector(
     ".project-description-form"
   );
-  const projectName = toCamelCase(addProjectName.value);
-  todoApp.addProject(projectName, addProjectDescription.value);
+
+  todoApp.addProject(addProjectName.value, addProjectDescription.value);
   addProjectName.value = "";
   addProjectDescription.value = "";
   setToLocalStorage();
   populateProjectsDom();
   closeProject();
-  addCenterColumnAddTodoButton(projectName);
+  addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
 }
 
 function closeProject() {
@@ -188,7 +188,6 @@ function addEventListenerToCenterAddTodoButton() {
 
   addTodoButton.addEventListener("click", () => {
     openAddTodoForm(currentProject);
-    removeCenterColumnAddTodoButton();
   });
 }
 
@@ -332,6 +331,7 @@ function submitTodoValues() {
   const notes = document.querySelector(".todo-notes-form");
   const project = document.querySelector(".new-todo-div").dataset.project;
 
+  console.log(project);
   todoApp.projects[project].addTodo(
     name.value,
     description.value,
@@ -385,7 +385,9 @@ function addCenterColumnAddTodoButton(project) {
 function removeCenterColumnAddTodoButton() {
   centerColumn.style.gridAutoRows = "25%";
   const centerAddTodoButton = document.querySelector(".center-add-todo-div");
-  centerAddTodoButton.remove();
+  if (centerAddTodoButton) {
+    centerAddTodoButton.remove();
+  }
 }
 
 function setToLocalStorage() {
