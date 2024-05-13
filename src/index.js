@@ -21,8 +21,6 @@ const bottom = document.querySelector(".bottom");
 
 //start up
 function init() {
-  //   sampleProjectsData(todoApp);
-
   getAnyAvailableLocalStorage();
   leftColumn.appendChild(createProjectTabHtmlElement());
   addEventListenerAddProjectButton();
@@ -390,7 +388,7 @@ function getLocalStorage() {
 function getAnyAvailableLocalStorage() {
   if (storageAvailable("localStorage")) {
     if (getLocalStorage() === null) {
-      return;
+      sampleProjectsData(todoApp);
     } else {
       todoApp.projects = getLocalStorage();
     }
