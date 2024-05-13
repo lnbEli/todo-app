@@ -4,7 +4,9 @@ export default function createTodoDetailedHtmlElement(
   dueDate,
   priority,
   notes,
-  completed
+  completed,
+  dataSetIndex,
+  dataSetProject
 ) {
   const div = document.createElement("div");
   const h3 = document.createElement("h3");
@@ -35,6 +37,8 @@ export default function createTodoDetailedHtmlElement(
 
   //Set attributes and classes of Elements
   div.classList.add("selected-todo");
+  div.dataset.index = dataSetIndex;
+  div.dataset.project = dataSetProject;
   h3.textContent = name;
   ul.classList.add("todo-details-list");
   liDescription.classList.add("todo-detail-list-item");
@@ -42,7 +46,7 @@ export default function createTodoDetailedHtmlElement(
   paragraphDescription.textContent = description;
   liDueDate.classList.add("todo-detail-list-item");
   h4DueDate.textContent = "Due Date:";
-  input.classList.add("date-test");
+  input.classList.add("due-date");
   input.setAttribute("type", "date");
   input.setAttribute("value", dueDate);
   liPriority.classList.add("todo-detail-list-item");
@@ -80,6 +84,7 @@ export default function createTodoDetailedHtmlElement(
   liNotes.classList.add("todo-detail-list-item");
   h4Notes.textContent = "Notes:";
   paragraphNotes.setAttribute("contenteditable", "true");
+  paragraphNotes.classList.add("notes-deatiled-todo");
   paragraphNotes.textContent = notes;
 
   //Create DOM structure

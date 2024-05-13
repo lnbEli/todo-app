@@ -19,11 +19,10 @@ const centerColumn = document.querySelector(".center");
 const rightColumn = document.querySelector(".right");
 const bottom = document.querySelector(".bottom");
 
-console.log(todoApp);
-console.log(todoApp.projects);
 //start up
 function init() {
   //   sampleProjectsData(todoApp);
+
   getAnyAvailableLocalStorage();
   leftColumn.appendChild(createProjectTabHtmlElement());
   addEventListenerAddProjectButton();
@@ -45,9 +44,11 @@ function submitTodo(e) {
   submitTodoValues();
   const todoFormElement = document.querySelector(".new-todo-div");
   const project = todoFormElement.dataset.project;
+  const lastTodoIndex = todoApp.projects[project].todos.length - 1;
   todoFormElement.remove();
   setThreeColumnLayout();
   populateTodosDom(project);
+  populateTodoDetailsDom(project, lastTodoIndex);
   enableAddTodoButtons();
 }
 
@@ -60,6 +61,7 @@ function closeTodo(e) {
 }
 
 function addProject() {
+  console.log(todoApp);
   const addProjectTab = document.querySelector(".new-project-tab");
   addProjectTab.remove();
   leftColumn.prepend(createProjectFormHtmlElement());
@@ -133,6 +135,7 @@ function addEventListenerPopulateProjectTodos() {
         project.firstElementChild.textContent
       );
       populateTodosDom(selectedProject);
+      populateTodoDetailsDom(selectedProject, 0);
     });
   });
 }
@@ -157,7 +160,9 @@ function addEventListenerToDeleteTodoButtons() {
       const currentProject = button.parentElement.parentElement.dataset.project;
       const todoIndex = button.parentElement.parentElement.dataset.index;
       todoApp.projects[currentProject].todos.splice(todoIndex, 1);
+      setToLocalStorage();
       populateTodosDom(currentProject);
+      populateTodoDetailsDom(currentProject, Math.max(0, todoIndex - 1));
     });
   });
 }
@@ -171,7 +176,7 @@ function addEventListenerToCenterAddTodoButton() {
     removeCenterColumnAddTodoButton();
   });
 }
-//check!!!!
+
 function addEventListenerToCompletedTodoCheckbox() {
   const completedCheckboxes = document.querySelectorAll(".checkbox");
   completedCheckboxes.forEach((checkbox) => {
@@ -184,8 +189,48 @@ function addEventListenerToCompletedTodoCheckbox() {
       const todo = todoApp.projects[currentProject].todos[todoIndex];
 
       todo.completed ? (todo.completed = false) : (todo.completed = true);
-      populateTodoDetailsDom(currentProject, todoIndex);
+      setToLocalStorage();
     });
+  });
+}
+
+function addEventListenerToDetailedTodo() {
+  const dueDateInput = document.querySelector(".due-date");
+  const selectedTodo = document.querySelector(".selected-todo");
+  const currentProject = selectedTodo.dataset.project;
+  const todoIndex = selectedTodo.dataset.index;
+  const todo = todoApp.projects[currentProject].todos[todoIndex];
+  const completedInput = document.getElementById("yes-no-select");
+  const priorityInput = document.getElementById("priority-select");
+  const notesInput = document.querySelector(".notes-deatiled-todo");
+
+  //eventListeners
+  dueDateInput.addEventListener("change", () => {
+    todo.dueDate = dueDateInput.value;
+    populateTodosDom(currentProject);
+    populateTodoDetailsDom(currentProject, todoIndex);
+    setToLocalStorage();
+  });
+
+  completedInput.addEventListener("change", () => {
+    completedInput.value === "yes"
+      ? (todo.completed = true)
+      : (todo.completed = false);
+    populateTodosDom(currentProject);
+    populateTodoDetailsDom(currentProject, todoIndex);
+    setToLocalStorage();
+  });
+
+  priorityInput.addEventListener("change", () => {
+    todo.priority = priorityInput.value;
+    populateTodosDom(currentProject);
+    populateTodoDetailsDom(currentProject, todoIndex);
+    setToLocalStorage();
+  });
+
+  notesInput.addEventListener("focusout", () => {
+    todo.notes = notesInput.textContent;
+    setToLocalStorage();
   });
 }
 
@@ -244,7 +289,6 @@ function populateTodosDom(project) {
     );
     dataSetIndex++;
   });
-  populateTodoDetailsDom(project, 0);
   addEventListenerPopulateTodoDetails();
   addEventListenerToDeleteTodoButtons();
   addEventListenerToCompletedTodoCheckbox();
@@ -296,11 +340,12 @@ function populateTodoDetailsDom(project, todoIndex) {
         selectedTodo.dueDate,
         selectedTodo.priority,
         selectedTodo.notes,
-        selectedTodo.completed
+        selectedTodo.completed,
+        todoIndex,
+        project
       )
     );
-  } else {
-    console.log("error function populateTodoDetails");
+    addEventListenerToDetailedTodo();
   }
 }
 
@@ -323,7 +368,7 @@ function addCenterColumnAddTodoButton(project) {
 }
 
 function removeCenterColumnAddTodoButton() {
-  centerColumn.style.gridAutoRows = "35%";
+  centerColumn.style.gridAutoRows = "25%";
   const centerAddTodoButton = document.querySelector(".center-add-todo-div");
   centerAddTodoButton.remove();
 }
@@ -342,13 +387,14 @@ function getLocalStorage() {
   return projects;
 }
 
-// localStorage.removeItem("name");
-// localStorage.removeItem("projects");
-
 function getAnyAvailableLocalStorage() {
   if (storageAvailable("localStorage")) {
-    todoApp.projects = getLocalStorage();
+    if (getLocalStorage() === null) {
+      return;
+    } else {
+      todoApp.projects = getLocalStorage();
+    }
   } else {
-    console.log("not available");
+    console.log("Local storage not available");
   }
 }
