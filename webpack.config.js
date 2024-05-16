@@ -44,5 +44,3 @@ module.exports = {
     runtimeChunk: "single",
   },
 };
-
-localStorage.removeItem([projects][needToDo]);

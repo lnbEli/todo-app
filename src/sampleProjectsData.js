@@ -11,16 +11,16 @@ export default function sampleProjectsData(todoApp) {
   );
 
   todoApp.projects.projectOne.addTodo(
-    "bye",
+    "Must do!",
     "Amazing task",
     "2012-07-02",
     "low",
-    "notes are boring",
+    "Notes are the best",
     false
   );
 
   todoApp.projects.projectOne.addTodo(
-    "good",
+    "Welcome",
     "task",
     "2015-05-02",
     "low",
@@ -28,8 +28,8 @@ export default function sampleProjectsData(todoApp) {
     true
   );
   todoApp.projects.defaultProject.addTodo(
-    "Note default",
-    "Default task",
+    "Feedback apreciated?",
+    "Tasks are cool",
     "2018-11-24",
     "low",
     "Notes are awesome",
@@ -37,7 +37,7 @@ export default function sampleProjectsData(todoApp) {
   );
 
   todoApp.projects.defaultProject.addTodo(
-    "Default Bye",
+    "My second note",
     "Amazing Default",
     "2016-02-24",
     "high",
@@ -46,7 +46,7 @@ export default function sampleProjectsData(todoApp) {
   );
 
   todoApp.projects.defaultProject.addTodo(
-    "Default good",
+    "My third note",
     "taskish",
     "2018-09-21",
     "low",

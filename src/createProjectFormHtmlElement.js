@@ -25,8 +25,12 @@ export default function createProjectFormHtmlElement() {
   inputName.classList.add("project-name-form");
   inputName.id = "project-name-form-id";
   inputName.setAttribute("type", "text");
+  inputName.required = true;
+  inputName.maxLength = "15";
   inputDescription.classList.add("project-description-form");
   inputDescription.id = "project-description-form-id";
+  inputDescription.required = true;
+  inputDescription.maxLength = "24";
   inputDescription.setAttribute("type", "text");
   liButtons.classList.add("project-buttons-form");
   inputButtonSubmit.classList.add("submit-project-button-form");

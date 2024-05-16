@@ -39,16 +39,23 @@ function openAddTodoForm(project) {
 }
 
 function submitTodo(e) {
-  e.preventDefault();
-  submitTodoValues();
+  const name = document.querySelector(".todo-name-form");
+  const description = document.querySelector(".todo-description-form");
   const todoFormElement = document.querySelector(".new-todo-div");
   const project = todoFormElement.dataset.project;
   const lastTodoIndex = todoApp.projects[project].todos.length - 1;
-  todoFormElement.remove();
-  setThreeColumnLayout();
-  populateTodosDom(project);
-  populateTodoDetailsDom(project, lastTodoIndex);
-  enableAddTodoButtons();
+
+  if ((name.value === "") | (description.value === "")) {
+    return;
+  } else {
+    e.preventDefault();
+    submitTodoValues();
+    todoFormElement.remove();
+    setThreeColumnLayout();
+    populateTodosDom(project);
+    populateTodoDetailsDom(project, lastTodoIndex);
+    enableAddTodoButtons();
+  }
 }
 
 function closeTodo(e) {
@@ -67,19 +74,23 @@ function addProject() {
 }
 
 function createProject(e) {
-  e.preventDefault();
   const addProjectName = document.querySelector(".project-name-form");
   const addProjectDescription = document.querySelector(
     ".project-description-form"
   );
 
-  todoApp.addProject(addProjectName.value, addProjectDescription.value);
-  addProjectName.value = "";
-  addProjectDescription.value = "";
-  setToLocalStorage();
-  populateProjectsDom();
-  closeProject();
-  addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
+  if (addProjectName.value !== "" && addProjectDescription.value !== "") {
+    e.preventDefault();
+    todoApp.addProject(addProjectName.value, addProjectDescription.value);
+    addProjectName.value = "";
+    addProjectDescription.value = "";
+    setToLocalStorage();
+    populateProjectsDom();
+    closeProject();
+    addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
+  } else {
+    return;
+  }
 }
 
 function closeProject() {
@@ -290,22 +301,28 @@ function populateTodosDom(project) {
   const todoColumn = document.querySelector(".center");
   removeAllTodosDom();
   const todosArray = todoApp.projects[project].todos;
-  let dataSetIndex = 0;
-  todosArray.forEach((todo) => {
-    todoColumn.appendChild(
-      createTodoHtmlElement(
-        todo.name,
-        todo.completed,
-        todo.dueDate,
-        dataSetIndex,
-        project
-      )
-    );
-    dataSetIndex++;
-  });
-  addEventListenerPopulateTodoDetails();
-  addEventListenerToDeleteTodoButtons();
-  addEventListenerToCompletedTodoCheckbox();
+  if (todosArray.length <= 0 && centerColumn.children.length <= 0) {
+    centerColumn.children.length <= 0;
+    addCenterColumnAddTodoButton(project);
+  } else {
+    let dataSetIndex = 0;
+    todosArray.forEach((todo) => {
+      todoColumn.appendChild(
+        createTodoHtmlElement(
+          todo.name,
+          todo.completed,
+          todo.dueDate,
+          dataSetIndex,
+          project
+        )
+      );
+      dataSetIndex++;
+    });
+    addEventListenerPopulateTodoDetails();
+    addEventListenerToDeleteTodoButtons();
+    addEventListenerToCompletedTodoCheckbox();
+    removeCenterColumnAddTodoButton();
+  }
 }
 
 function disableAddTodoButtons() {
@@ -331,7 +348,6 @@ function submitTodoValues() {
   const notes = document.querySelector(".todo-notes-form");
   const project = document.querySelector(".new-todo-div").dataset.project;
 
-  console.log(project);
   todoApp.projects[project].addTodo(
     name.value,
     description.value,

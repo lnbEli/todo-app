@@ -64,12 +64,18 @@ export default function createTodoFormHtmlElement(project) {
   inputName.setAttribute("type", "text");
   inputName.classList.add("todo-name-form");
   inputName.id = "todo-name-form-id";
+  inputName.required = true;
+  inputName.minLength = "4";
+  inputName.maxLength = "20";
 
   h4Description.textContent = "Description:";
   labelDescription.htmlFor = "todo-description-form-id";
   inputDescription.setAttribute("type", "text");
   inputDescription.classList.add("todo-description-form");
   inputDescription.id = "todo-description-form-id";
+  inputDescription.required = true;
+  inputDescription.minLength = "15";
+  inputDescription.maxLength = "50";
 
   h4DueDate.textContent = "Due Date:";
   labelDueDate.htmlFor = "todo-date-form-id";
