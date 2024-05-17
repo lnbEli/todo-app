@@ -28,8 +28,8 @@ export default function sampleProjectsData(todoApp) {
     true
   );
   todoApp.projects.defaultProject.addTodo(
-    "Feedback apreciated?",
-    "Tasks are cool",
+    "Feedback?",
+    "Would be appreciated",
     "2018-11-24",
     "low",
     "Notes are awesome",

@@ -26,6 +26,7 @@ function init() {
   addEventListenerAddProjectButton();
   populateProjectsDom();
   populateTodosDom("defaultProject");
+  changeColorOfFirstProjectAndTodo();
   populateTodoDetailsDom("defaultProject", 0);
 }
 init();
@@ -43,6 +44,7 @@ function submitTodo(e) {
   const description = document.querySelector(".todo-description-form");
   const todoFormElement = document.querySelector(".new-todo-div");
   const project = todoFormElement.dataset.project;
+  console.log(project);
   const lastTodoIndex = todoApp.projects[project].todos.length - 1;
 
   if ((name.value === "") | (description.value === "")) {
@@ -53,7 +55,8 @@ function submitTodo(e) {
     todoFormElement.remove();
     setThreeColumnLayout();
     populateTodosDom(project);
-    populateTodoDetailsDom(project, lastTodoIndex);
+    changeColorOfLastAddedTodoDom();
+    populateTodoDetailsDom(project, lastTodoIndex + 1);
     enableAddTodoButtons();
   }
 }
@@ -61,8 +64,10 @@ function submitTodo(e) {
 function closeTodo(e) {
   e.preventDefault();
   const todoFormElement = document.querySelector(".new-todo-div");
+  const project = todoFormElement.dataset.project;
   todoFormElement.remove();
   setThreeColumnLayout();
+  populateTodosDom(project);
   enableAddTodoButtons();
 }
 
@@ -82,12 +87,13 @@ function createProject(e) {
   if (addProjectName.value !== "" && addProjectDescription.value !== "") {
     e.preventDefault();
     todoApp.addProject(addProjectName.value, addProjectDescription.value);
+    addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
     addProjectName.value = "";
     addProjectDescription.value = "";
     setToLocalStorage();
     populateProjectsDom();
     closeProject();
-    addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
+    changeColorOfLastAddedProjectDom();
   } else {
     return;
   }
@@ -141,7 +147,9 @@ function addEventListenerPopulateProjectTodos() {
   projectsDom.forEach((project) => {
     project.addEventListener("click", () => {
       const selectedProject = toCamelCase(project.children[1].textContent);
+      toggleHoverColorProjects(project);
       populateTodosDom(selectedProject);
+      changeColorOfSelectedTodoDom();
       populateTodoDetailsDom(selectedProject, 0);
     });
   });
@@ -154,6 +162,7 @@ function addEventListenerPopulateTodoDetails() {
       const selectedtodoIndex = Number(todo.dataset.index);
       const currentProject = todo.dataset.project;
       populateTodoDetailsDom(currentProject, selectedtodoIndex);
+      toggleHoverColorTodos(todo);
     });
   });
 }
@@ -170,6 +179,7 @@ function addEventListenerToDeleteTodoButtons() {
       setToLocalStorage();
       populateTodosDom(currentProject);
       populateTodoDetailsDom(currentProject, Math.max(0, todoIndex - 1));
+      changeColorOfLastAddedTodoDom();
     });
   });
 }
@@ -189,6 +199,7 @@ function addEventListenerToDeleteProjectButtons() {
       const approxFirstProjectInProjects = Object.keys(todoApp.projects)[0];
       populateTodosDom(approxFirstProjectInProjects);
       populateTodoDetailsDom(approxFirstProjectInProjects, 0);
+      changeColorOfFirstProjectAndTodo();
     });
   });
 }
@@ -234,6 +245,7 @@ function addEventListenerToDetailedTodo() {
     todo.dueDate = dueDateInput.value;
     populateTodosDom(currentProject);
     populateTodoDetailsDom(currentProject, todoIndex);
+    changeColorOfTodo(todoIndex);
     setToLocalStorage();
   });
 
@@ -243,6 +255,7 @@ function addEventListenerToDetailedTodo() {
       : (todo.completed = false);
     populateTodosDom(currentProject);
     populateTodoDetailsDom(currentProject, todoIndex);
+    changeColorOfTodo(todoIndex);
     setToLocalStorage();
   });
 
@@ -250,6 +263,7 @@ function addEventListenerToDetailedTodo() {
     todo.priority = priorityInput.value;
     populateTodosDom(currentProject);
     populateTodoDetailsDom(currentProject, todoIndex);
+    changeColorOfTodo(todoIndex);
     setToLocalStorage();
   });
 
@@ -298,12 +312,13 @@ function populateProjectsDom() {
 }
 
 function populateTodosDom(project) {
-  const todoColumn = document.querySelector(".center");
   removeAllTodosDom();
+  const todoColumn = document.querySelector(".center");
   const todosArray = todoApp.projects[project].todos;
   if (todosArray.length <= 0 && centerColumn.children.length <= 0) {
-    centerColumn.children.length <= 0;
     addCenterColumnAddTodoButton(project);
+  } else if (todosArray.length <= 0 && centerColumn.children.length === 1) {
+    return;
   } else {
     let dataSetIndex = 0;
     todosArray.forEach((todo) => {
@@ -318,10 +333,12 @@ function populateTodosDom(project) {
       );
       dataSetIndex++;
     });
+
     addEventListenerPopulateTodoDetails();
     addEventListenerToDeleteTodoButtons();
     addEventListenerToCompletedTodoCheckbox();
     removeCenterColumnAddTodoButton();
+    addPriorityColorToTodos();
   }
 }
 
@@ -430,4 +447,70 @@ function getAnyAvailableLocalStorage() {
   } else {
     console.log("Local storage not available");
   }
+}
+
+//Function to change colour of currently selected todos and projects.
+
+function toggleHoverColorProjects(projectElement) {
+  const projectsDom = document.querySelectorAll(".project-refresh");
+  projectsDom.forEach((element) => {
+    element.classList.remove("project-refresh-selected");
+  });
+  projectElement.classList.add("project-refresh-selected");
+}
+
+function changeColorOfLastAddedProjectDom() {
+  const projectsDom = document.querySelectorAll(".project-refresh");
+  const lastProject = projectsDom[projectsDom.length - 1];
+
+  if (lastProject) {
+    lastProject.classList.add("project-refresh-selected");
+  }
+}
+
+function toggleHoverColorTodos(todoElement) {
+  const todosDom = document.querySelectorAll(".todo");
+  todosDom.forEach((element) => {
+    element.classList.remove("todo-selected");
+  });
+  todoElement.classList.add("todo-selected");
+}
+
+function changeColorOfSelectedTodoDom() {
+  const firstTodoDom = document.querySelector(".todo");
+  if (firstTodoDom) {
+    firstTodoDom.classList.add("todo-selected");
+  }
+}
+
+function changeColorOfLastAddedTodoDom() {
+  const todosDom = document.querySelectorAll(".todo");
+  const lastTodo = todosDom[todosDom.length - 1];
+
+  if (lastTodo) {
+    lastTodo.classList.add("todo-selected");
+  }
+}
+
+function changeColorOfFirstProjectAndTodo() {
+  const firstProject = document.querySelector(".project-refresh");
+  firstProject.classList.add("project-refresh-selected");
+  const firstTodo = document.querySelector(".todo");
+  firstTodo.classList.add("todo-selected");
+}
+
+function changeColorOfTodo(todoIndex) {
+  const todosDom = document.querySelectorAll(".todo");
+  const selectedTodo = todosDom[todoIndex];
+  selectedTodo.classList.add("todo-selected");
+}
+
+function addPriorityColorToTodos() {
+  const todosDom = document.querySelectorAll(".todo");
+  todosDom.forEach((todo) => {
+    const projectName = todo.dataset.project;
+    const priority =
+      todoApp.projects[projectName].todos[todo.dataset.index].priority;
+    todo.classList.add(`todo-priority-${priority}`);
+  });
 }
