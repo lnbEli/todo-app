@@ -120,10 +120,11 @@ export default function createTodoFormHtmlElement(project) {
   inputButtonSubmit.classList.add("submit-todo");
   inputButtonSubmit.classList.add("submit");
   inputButtonSubmit.setAttribute("type", "submit");
+  inputButtonSubmit.setAttribute("value", "Create");
   inputButtonClose.classList.add("submit");
   inputButtonClose.classList.add("close-todo");
   inputButtonClose.setAttribute("type", "button");
-  inputButtonClose.setAttribute("value", "close");
+  inputButtonClose.setAttribute("value", "Close");
 
   //Create DOM structure
   div.appendChild(form);

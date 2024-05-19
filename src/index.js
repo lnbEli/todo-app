@@ -37,6 +37,7 @@ function openAddTodoForm(project) {
   addEventListenerToTodoFormButtons();
   setTwoColumnLayout();
   disableAddTodoButtons();
+  disableAddProjectButton();
 }
 
 function submitTodo(e) {
@@ -58,6 +59,7 @@ function submitTodo(e) {
     changeColorOfLastAddedTodoDom();
     populateTodoDetailsDom(project, lastTodoIndex + 1);
     enableAddTodoButtons();
+    enableAddProjectButton();
   }
 }
 
@@ -69,6 +71,7 @@ function closeTodo(e) {
   setThreeColumnLayout();
   populateTodosDom(project);
   enableAddTodoButtons();
+  enableAddProjectButton();
 }
 
 function addProject() {
@@ -76,6 +79,7 @@ function addProject() {
   addProjectTab.remove();
   leftColumn.prepend(createProjectFormHtmlElement());
   addEventListenerNewProjectButtons();
+  disableAddTodoButtons();
 }
 
 function createProject(e) {
@@ -104,6 +108,7 @@ function closeProject() {
   addProjectForm.remove();
   leftColumn.prepend(createProjectTabHtmlElement());
   addEventListenerAddProjectButton();
+  enableAddTodoButtons();
 }
 
 //Add EventListeners to buttons functions
@@ -343,17 +348,27 @@ function populateTodosDom(project) {
 }
 
 function disableAddTodoButtons() {
-  const addTodoButton = document.querySelectorAll(".add-pointer");
+  const addTodoButton = document.querySelectorAll(".project-refresh");
   addTodoButton.forEach((button) => {
     button.style.pointerEvents = "none";
   });
 }
 
 function enableAddTodoButtons() {
-  const addTodoButton = document.querySelectorAll(".add-pointer");
+  const addTodoButton = document.querySelectorAll(".project-refresh");
   addTodoButton.forEach((button) => {
     button.style.pointerEvents = "auto";
   });
+}
+
+function disableAddProjectButton() {
+  const addProjectButton = document.querySelector(".new-project-button-tab");
+  addProjectButton.style.pointerEvents = "none";
+}
+
+function enableAddProjectButton() {
+  const addProjectButton = document.querySelector(".new-project-button-tab");
+  addProjectButton.style.pointerEvents = "auto";
 }
 
 function submitTodoValues() {
@@ -394,6 +409,7 @@ function populateTodoDetailsDom(project, todoIndex) {
       )
     );
     addEventListenerToDetailedTodo();
+    addPriorityColorToDetailedTodo();
   }
 }
 
@@ -416,7 +432,7 @@ function addCenterColumnAddTodoButton(project) {
 }
 
 function removeCenterColumnAddTodoButton() {
-  centerColumn.style.gridAutoRows = "25%";
+  centerColumn.style.gridAutoRows = "22%";
   const centerAddTodoButton = document.querySelector(".center-add-todo-div");
   if (centerAddTodoButton) {
     centerAddTodoButton.remove();
@@ -513,4 +529,13 @@ function addPriorityColorToTodos() {
       todoApp.projects[projectName].todos[todo.dataset.index].priority;
     todo.classList.add(`todo-priority-${priority}`);
   });
+}
+
+function addPriorityColorToDetailedTodo() {
+  const detailedTodoDom = document.querySelector(".selected-todo");
+  console.log(detailedTodoDom);
+  const projectName = detailedTodoDom.dataset.project;
+  const todoIndex = detailedTodoDom.dataset.index;
+  const priority = todoApp.projects[projectName].todos[todoIndex].priority;
+  detailedTodoDom.classList.add(`detailed-todo-priority-${priority}`);
 }
