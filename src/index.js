@@ -9,7 +9,6 @@ import createProjectTabHtmlElement from "./createProjectTabHtmlElement.js";
 import sampleProjectsData from "./sampleProjectsData.js";
 import toCamelCase from "./toCamelCase.js";
 import createCenterColumnAddTodoHtmlButtonElement from "./createCenterColumnAddTodoHtmlButtonElement";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import Project from "./project.js";
 import storageAvailable from "./storageAvailable.js";
 

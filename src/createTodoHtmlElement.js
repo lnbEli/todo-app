@@ -1,3 +1,5 @@
+import { isValid, format, parseISO } from "date-fns";
+
 export default function createTodoHtmlElement(
   name,
   completed,
@@ -28,7 +30,7 @@ export default function createTodoHtmlElement(
   input.classList.add("checkbox");
   completed ? (input.checked = true) : (input.checked = false);
   h5Due.textContent = "Due Date";
-  paragraph.textContent = due;
+  paragraph.textContent = format(parseISO(due), "dd/MM/yy");
   spanInnerTwo.classList.add("bin");
   spanInnerTwo.textContent = "🗑";
 
