@@ -17,6 +17,7 @@ export default function createTodoHtmlElement(
   const paragraph = document.createElement("p");
   const label = document.createElement("label");
   const input = document.createElement("input");
+  const dateFormatted = format(parseISO(due), "dd/MM/yy");
 
   div.classList.add("todo");
   div.setAttribute("data-index", dataSetIndex);
@@ -30,7 +31,7 @@ export default function createTodoHtmlElement(
   input.classList.add("checkbox");
   completed ? (input.checked = true) : (input.checked = false);
   h5Due.textContent = "Due Date";
-  paragraph.textContent = format(parseISO(due), "dd/MM/yy");
+  paragraph.textContent = dateFormatted;
   spanInnerTwo.classList.add("bin");
   spanInnerTwo.textContent = "🗑";
 

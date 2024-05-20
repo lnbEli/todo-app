@@ -82,6 +82,7 @@ export default function createTodoFormHtmlElement(project) {
   inputDueDate.setAttribute("type", "date");
   inputDueDate.classList.add("todo-date-form");
   inputDueDate.id = "todo-date-form-id";
+  inputDueDate.required = true;
 
   h4Priority.textContent = "Priority:";
   labelPriority.htmlFor = "todo-priority-form-id";

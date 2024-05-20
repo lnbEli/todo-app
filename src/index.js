@@ -42,12 +42,13 @@ function openAddTodoForm(project) {
 function submitTodo(e) {
   const name = document.querySelector(".todo-name-form");
   const description = document.querySelector(".todo-description-form");
+  const date = document.querySelector(".todo-date-form");
   const todoFormElement = document.querySelector(".new-todo-div");
   const project = todoFormElement.dataset.project;
   console.log(project);
   const lastTodoIndex = todoApp.projects[project].todos.length - 1;
-
-  if ((name.value === "") | (description.value === "")) {
+  // Uses Browser validation
+  if (name.value === "" || description.value === "" || date.value === "") {
     return;
   } else {
     e.preventDefault();
@@ -66,8 +67,13 @@ function closeTodo(e) {
   e.preventDefault();
   const todoFormElement = document.querySelector(".new-todo-div");
   const project = todoFormElement.dataset.project;
+  const numberOfTodosInProject = todoApp.projects[project].todos.length;
   todoFormElement.remove();
-  setThreeColumnLayout();
+  if (numberOfTodosInProject > 0) {
+    setThreeColumnLayout();
+  } else {
+    centerColumn.style.display = "grid";
+  }
   populateTodosDom(project);
   enableAddTodoButtons();
   enableAddProjectButton();
@@ -90,6 +96,7 @@ function createProject(e) {
   if (addProjectName.value !== "" && addProjectDescription.value !== "") {
     e.preventDefault();
     todoApp.addProject(addProjectName.value, addProjectDescription.value);
+
     addCenterColumnAddTodoButton(toCamelCase(addProjectName.value));
     addProjectName.value = "";
     addProjectDescription.value = "";
@@ -425,16 +432,24 @@ function setTwoColumnLayout() {
 }
 
 function addCenterColumnAddTodoButton(project) {
-  centerColumn.style.gridAutoRows = "100%";
+  //can remove?
+  // centerColumn.style.gridAutoRows = "100%";
+  while (centerColumn.firstChild) {
+    centerColumn.removeChild(centerColumn.firstChild);
+  }
   centerColumn.appendChild(createCenterColumnAddTodoHtmlButtonElement(project));
   addEventListenerToCenterAddTodoButton();
+  bottom.style.gridTemplateColumns = "1fr 1fr";
+  rightColumn.style.display = "none";
 }
 
 function removeCenterColumnAddTodoButton() {
-  centerColumn.style.gridAutoRows = "22%";
+  // centerColumn.style.gridAutoRows = "22%";
   const centerAddTodoButton = document.querySelector(".center-add-todo-div");
   if (centerAddTodoButton) {
     centerAddTodoButton.remove();
+    bottom.style.gridTemplateColumns = "1fr 1fr 1fr";
+    rightColumn.style.display = "block";
   }
 }
 
@@ -532,7 +547,6 @@ function addPriorityColorToTodos() {
 
 function addPriorityColorToDetailedTodo() {
   const detailedTodoDom = document.querySelector(".selected-todo");
-  console.log(detailedTodoDom);
   const projectName = detailedTodoDom.dataset.project;
   const todoIndex = detailedTodoDom.dataset.index;
   const priority = todoApp.projects[projectName].todos[todoIndex].priority;
