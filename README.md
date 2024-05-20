@@ -47,7 +47,7 @@ Functions for adding, updating, and deleting projects and todos (addProject(), s
 Ensures comprehensive CRUD (Create, Read, Update, Delete) operations for project and task management.
 
 
-Summary
+Summary:
 The application uses modular JavaScript architecture, class driven design,dynamic DOM manipulation, form handling with validation, and local storage for persistence. It employs a variety of techniques for managing projects and todos, including utility functions, responsive layout adjustments, and modular template creation. Biggest challenge was keeping todoApp object state seperate for DOM state. This is what I would focus on when refactoring.   
 
 
